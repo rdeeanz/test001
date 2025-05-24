@@ -1,0 +1,56 @@
+/* Basic Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Navigation Bar - Bootstrap is likely fine, but can add custom touches if needed */
+.navbar {
+    margin-bottom: 20px;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+/* Tables */
+.table {
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Add a border to the table */
+}
+
+.table th, .table td {
+    padding: 8px; /* Ensure proper spacing */
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add borders to rows */
+}
+
+.table thead th {
+    background-color: #e9ecef; /* Light grey background for table header */
+    border-bottom-width: 2px;
+}
+
+/* Footer */
+.footer {
+    background-color: #343a40; /* Darker background for footer */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer .text-muted {
+    color: #adb5bd !important; /* Lighter text for muted text in footer */
+}
+
+/* Container adjustments */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

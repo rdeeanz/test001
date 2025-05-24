@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ asset.name }}</h2>
+    <hr>
+
+    <h4>Asset Details:</h4>
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">{{ asset.id }}</dd>
+
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">{{ asset.name }}</dd>
+
+        <dt class="col-sm-3">Type</dt>
+        <dd class="col-sm-9">{{ asset.asset_type | capitalize }}</dd>
+
+        <dt class="col-sm-3">Location</dt>
+        <dd class="col-sm-9">{{ asset.location }}</dd>
+
+        <dt class="col-sm-3">Capacity</dt>
+        <dd class="col-sm-9">{{ asset.capacity }}</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">{{ asset.status }}</dd>
+
+        {% if asset.asset_type == 'dock' %}
+        <dt class="col-sm-3">Water Depth</dt>
+        <dd class="col-sm-9">{{ asset.water_depth }} m</dd>
+        <dt class="col-sm-3">Number of Berths</dt>
+        <dd class="col-sm-9">{{ asset.number_of_berths }}</dd>
+        {% elif asset.asset_type == 'yard' %}
+        <dt class="col-sm-3">Area</dt>
+        <dd class="col-sm-9">{{ asset.area_sqm }} sq m</dd>
+        <dt class="col-sm-3">Surface Type</dt>
+        <dd class="col-sm-9">{{ asset.surface_type }}</dd>
+        {% elif asset.asset_type == 'warehouse' %}
+        <dt class="col-sm-3">Storage Capacity</dt>
+        <dd class="col-sm-9">{{ asset.storage_capacity_cbm }} cbm</dd>
+        <dt class="col-sm-3">Climate Controlled</dt>
+        <dd class="col-sm-9">{{ "Yes" if asset.has_climate_control else "No" }}</dd>
+        {% endif %}
+    </dl>
+
+    <div class="mt-3">
+        <a href="#" class="btn btn-secondary">Edit Asset</a> {# Placeholder for /asset/<asset_id>/edit #}
+    </div>
+
+    <hr>
+
+    <h4>Inspections:</h4>
+    {% if asset.inspections %}
+        <ul>
+            {% for inspection in asset.inspections %}
+            <li>{{ inspection.inspection_date.strftime('%Y-%m-%d') }}: {{ inspection.notes }} (Inspector: {{ inspection.inspector_name }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No inspections recorded for this asset.</p>
+    {% endif %}
+    <a href="#" class="btn btn-success btn-sm">Add Inspection</a> {# Placeholder for /asset/<asset_id>/inspection/add #}
+
+    <hr>
+
+    <h4>Maintenance Records:</h4>
+     {% if asset.maintenance_records %}
+        <ul>
+            {% for record in asset.maintenance_records %}
+            <li>{{ record.maintenance_date.strftime('%Y-%m-%d') }}: {{ record.description }} (Cost: ${{ record.cost }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No maintenance records found for this asset.</p>
+    {% endif %}
+    <a href="#" class="btn btn-success btn-sm">Add Maintenance Record</a> {# Placeholder for /asset/<asset_id>/maintenance/add #}
+
+</div>
+{% endblock %}
