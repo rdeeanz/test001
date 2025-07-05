@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JokeMaster - Random Joke Generator</title>
+    <link rel="stylesheet" href="joke-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="title">
+                <i class="fas fa-laugh-beam"></i>
+                JokeMaster
+            </h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Welcome, rdeeanz</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Joke Display -->
+            <section class="joke-section">
+                <div class="joke-container">
+                    <div class="joke-header">
+                        <h2>Ready for a laugh?</h2>
+                        <div class="joke-category" id="joke-category">
+                            <i class="fas fa-tag"></i>
+                            <span>General</span>
+                        </div>
+                    </div>
+                    
+                    <div class="joke-content">
+                        <div id="joke-display" class="joke-text">
+                            Click "Get Random Joke" to start laughing!
+                        </div>
+                        
+                        <div id="joke-setup" class="joke-setup hidden">
+                            <!-- Setup for two-part jokes -->
+                        </div>
+                        
+                        <div id="joke-punchline" class="joke-punchline hidden">
+                            <!-- Punchline for two-part jokes -->
+                        </div>
+                    </div>
+
+                    <div class="joke-actions">
+                        <button id="get-joke-btn" class="primary-btn">
+                            <i class="fas fa-dice"></i>
+                            Get Random Joke
+                        </button>
+                        <button id="show-punchline-btn" class="secondary-btn hidden">
+                            <i class="fas fa-eye"></i>
+                            Show Punchline
+                        </button>
+                        <button id="save-joke-btn" class="action-btn" disabled>
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <button id="share-joke-btn" class="action-btn" disabled>
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <button id="copy-joke-btn" class="action-btn" disabled>
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <div class="joke-rating">
+                        <span>Rate this joke:</span>
+                        <div class="rating-stars">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Joke Categories -->
+            <section class="categories-section">
+                <h2 class="section-title">Choose a Category</h2>
+                <div class="categories-grid">
+                    <button class="category-btn active" data-category="any">
+                        <i class="fas fa-random"></i>
+                        <span>Any</span>
+                    </button>
+                    <button class="category-btn" data-category="programming">
+                        <i class="fas fa-code"></i>
+                        <span>Programming</span>
+                    </button>
+                    <button class="category-btn" data-category="misc">
+                        <i class="fas fa-question"></i>
+                        <span>Miscellaneous</span>
+                    </button>
+                    <button class="category-btn" data-category="dark">
+                        <i class="fas fa-moon"></i>
+                        <span>Dark</span>
+                    </button>
+                    <button class="category-btn" data-category="pun">
+                        <i class="fas fa-grin-squint"></i>
+                        <span>Pun</span>
+                    </button>
+                    <button class="category-btn" data-category="spooky">
+                        <i class="fas fa-ghost"></i>
+                        <span>Spooky</span>
+                    </button>
+                    <button class="category-btn" data-category="christmas">
+                        <i class="fas fa-tree"></i>
+                        <span>Christmas</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Joke Types -->
+            <section class="types-section">
+                <h2 class="section-title">Joke Type</h2>
+                <div class="types-grid">
+                    <button class="type-btn active" data-type="any">
+                        <i class="fas fa-random"></i>
+                        <span>Any Type</span>
+                    </button>
+                    <button class="type-btn" data-type="single">
+                        <i class="fas fa-comment"></i>
+                        <span>Single</span>
+                    </button>
+                    <button class="type-btn" data-type="twopart">
+                        <i class="fas fa-comments"></i>
+                        <span>Two Part</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Saved Jokes -->
+            <section class="saved-jokes-section">
+                <div class="section-header">
+                    <h2 class="section-title">Saved Jokes</h2>
+                    <button id="clear-saved-btn" class="clear-btn">
+                        <i class="fas fa-trash"></i>
+                        Clear All
+                    </button>
+                </div>
+                <div id="saved-jokes-container" class="saved-jokes-container">
+                    <div class="empty-state">
+                        <i class="fas fa-heart-broken"></i>
+                        <p>No saved jokes yet. Save some good ones!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="stats-section">
+                <h2 class="section-title">Your Joke Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="jokes-viewed">0</h3>
+                            <p>Jokes Viewed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="jokes-saved">0</h3>
+                            <p>Jokes Saved</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="average-rating">0.0</h3>
+                            <p>Avg Rating</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="favorite-category">-</h3>
+                            <p>Favorite Category</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+        <p>Loading a great joke...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="joke-script.js"></script>
+</body>
+</html>
