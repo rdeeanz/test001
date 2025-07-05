@@ -1,7 +1,7 @@
 // Weather API Configuration
 const WEATHER_CONFIG = {
     // Get your free API key from https://openweathermap.org/api
-    API_KEY: 'YOUR_API_KEY_HERE', // Replace with your actual API key
+    API_KEY: 'bd618b56cb1d1bb1fc050f2d6aa7dcc9', // Replace with your actual API key
     BASE_URL: 'https://api.openweathermap.org/data/2.5',
     GEOCODING_URL: 'https://api.openweathermap.org/geo/1.0',
     MAP_URL: 'https://tile.openweathermap.org/map',
