@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Digital Clock</title>
+    <link rel="stylesheet" href="clock-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">
+                <i class="fas fa-globe-americas"></i>
+                World Digital Clock
+            </h1>
+            <div class="header-controls">
+                <button id="theme-toggle" class="theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="format-toggle" class="format-toggle" title="Toggle 12/24 Hour Format">
+                    24H
+                </button>
+                <button id="add-timezone" class="add-timezone-btn" title="Add Timezone">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Primary Clock -->
+        <section class="primary-clock">
+            <div class="clock-container main-clock">
+                <div class="clock-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="main-location">Local Time</span>
+                </div>
+                <div class="time-display">
+                    <span id="main-time" class="time">00:00:00</span>
+                    <span id="main-period" class="period">AM</span>
+                </div>
+                <div class="date-display">
+                    <span id="main-date" class="date">Monday, January 1, 2024</span>
+                </div>
+                <div class="timezone-info">
+                    <span id="main-timezone" class="timezone">UTC+0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- World Clocks Grid -->
+        <section class="world-clocks">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i>
+                World Time Zones
+            </h2>
+            <div id="clocks-grid" class="clocks-grid">
+                <!-- Clock items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Timezone Selector Modal -->
+        <div id="timezone-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add New Timezone</h3>
+                    <button id="close-modal" class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="search-container">
+                        <input type="text" id="timezone-search" placeholder="Search for a city or timezone...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div class="timezone-categories">
+                        <div class="category">
+                            <h4>Popular Cities</h4>
+                            <div class="timezone-options" id="popular-timezones">
+                                <!-- Popular timezones will be populated here -->
+                            </div>
+                        </div>
+                        <div class="category">
+                            <h4>All Timezones</h4>
+                            <div class="timezone-options" id="all-timezones">
+                                <!-- All timezones will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Digital Clock Features -->
+        <section class="features">
+            <div class="feature-card">
+                <i class="fas fa-stopwatch"></i>
+                <h3>Stopwatch</h3>
+                <div class="stopwatch-controls">
+                    <div id="stopwatch-display" class="feature-display">00:00:00</div>
+                    <div class="controls">
+                        <button id="stopwatch-start" class="control-btn start">Start</button>
+                        <button id="stopwatch-stop" class="control-btn stop">Stop</button>
+                        <button id="stopwatch-reset" class="control-btn reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-hourglass-half"></i>
+                <h3>Timer</h3>
+                <div class="timer-controls">
+                    <div class="timer-input">
+                        <input type="number" id="timer-minutes" min="0" max="59" value="5" placeholder="MM">
+                        <span>:</span>
+                        <input type="number" id="timer-seconds" min="0" max="59" value="0" placeholder="SS">
+                    </div>
+                    <div id="timer-display" class="feature-display">05:00</div>
+                    <div class="controls">
+                        <button id="timer-start" class="control-btn start">Start</button>
+                        <button id="timer-pause" class="control-btn pause">Pause</button>
+                        <button id="timer-reset" class="control-btn reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-bell"></i>
+                <h3>Alarms</h3>
+                <div class="alarm-controls">
+                    <div class="alarm-input">
+                        <input type="time" id="alarm-time" value="07:00">
+                        <input type="text" id="alarm-label" placeholder="Alarm label">
+                    </div>
+                    <button id="add-alarm" class="control-btn add">Add Alarm</button>
+                    <div id="alarms-list" class="alarms-list">
+                        <!-- Alarms will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Time Zone Information -->
+        <section class="timezone-info-section">
+            <h2 class="section-title">
+                <i class="fas fa-info-circle"></i>
+                Time Zone Information
+            </h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>UTC Time</h4>
+                    <div id="utc-time" class="info-value">--:--:--</div>
+                </div>
+                <div class="info-card">
+                    <h4>Unix Timestamp</h4>
+                    <div id="unix-timestamp" class="info-value">----------</div>
+                </div>
+                <div class="info-card">
+                    <h4>Day of Year</h4>
+                    <div id="day-of-year" class="info-value">---</div>
+                </div>
+                <div class="info-card">
+                    <h4>Week Number</h4>
+                    <div id="week-number" class="info-value">--</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Audio for alarms and timer -->
+    <audio id="alarm-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSEGJHfH8N2QQAoUXrTp66hVFApGn+DyvmwfBSuI0fLDdSYGKYPN8dCLPQgTb7zn559NEAxPqOPyuWAcByF+0fDDdyQGK4TB8NKNPggdWLPq6qNdFAhJouD0wWwfBiyE0O/BQgcYaLzu4I7fAF4MN2+o3O9VPjMNUJi9vwpE7VEOdw8FLjqEE3TvHQ7uPFXaLVwQllHKTPZa7qVGHLvUo3E6E1ueXgVjWz8zP3BfaY7VlMi4P5aDGJ8z7LiX" type="audio/wav">
+    </audio>
+
+    <script src="clock-script.js"></script>
+</body>
+</html>
