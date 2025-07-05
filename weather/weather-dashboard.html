@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="weather-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner">
+            <i class="fas fa-sun"></i>
+        </div>
+        <p>Loading weather data...</p>
+    </div>
+
+    <!-- Main Container -->
+    <div id="app" class="app hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <i class="fas fa-cloud-sun"></i>
+                    Weather Dashboard
+                </h1>
+                <div class="header-controls">
+                    <button id="unit-toggle" class="unit-toggle" title="Toggle Temperature Unit">
+                        <span id="unit-display">°C</span>
+                    </button>
+                    <button id="refresh-btn" class="refresh-btn" title="Refresh Data">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        id="location-input" 
+                        placeholder="Search for a city..."
+                        autocomplete="off"
+                    >
+                    <button id="location-btn" class="location-btn" title="Use Current Location">
+                        <i class="fas fa-location-arrow"></i>
+                    </button>
+                </div>
+                <div id="search-suggestions" class="search-suggestions hidden"></div>
+            </div>
+        </section>
+
+        <!-- Current Weather -->
+        <section class="current-weather">
+            <div class="weather-main">
+                <div class="weather-info">
+                    <div class="location">
+                        <h2 id="current-location">Loading...</h2>
+                        <p id="current-date"></p>
+                    </div>
+                    <div class="temperature">
+                        <span id="current-temp">--</span>
+                        <span class="temp-unit">°</span>
+                    </div>
+                </div>
+                <div class="weather-visual">
+                    <div class="weather-icon">
+                        <i id="current-icon" class="fas fa-sun"></i>
+                    </div>
+                    <p id="current-description">Loading...</p>
+                </div>
+            </div>
+            
+            <div class="weather-details">
+                <div class="detail-item">
+                    <i class="fas fa-eye"></i>
+                    <div>
+                        <span class="detail-label">Visibility</span>
+                        <span id="visibility" class="detail-value">-- km</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-tint"></i>
+                    <div>
+                        <span class="detail-label">Humidity</span>
+                        <span id="humidity" class="detail-value">--%</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-wind"></i>
+                    <div>
+                        <span class="detail-label">Wind Speed</span>
+                        <span id="wind-speed" class="detail-value">-- m/s</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <div>
+                        <span class="detail-label">Feels Like</span>
+                        <span id="feels-like" class="detail-value">--°</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                    <div>
+                        <span class="detail-label">Pressure</span>
+                        <span id="pressure" class="detail-value">-- hPa</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-sun"></i>
+                    <div>
+                        <span class="detail-label">UV Index</span>
+                        <span id="uv-index" class="detail-value">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Alerts -->
+        <section id="weather-alerts" class="weather-alerts hidden">
+            <div class="alert-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Weather Alerts</h3>
+            </div>
+            <div id="alerts-container" class="alerts-container"></div>
+        </section>
+
+        <!-- Hourly Forecast -->
+        <section class="hourly-forecast">
+            <h3 class="section-title">
+                <i class="fas fa-clock"></i>
+                24-Hour Forecast
+            </h3>
+            <div id="hourly-container" class="hourly-container">
+                <!-- Hourly items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- 5-Day Forecast -->
+        <section class="daily-forecast">
+            <h3 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                5-Day Forecast
+            </h3>
+            <div id="forecast-container" class="forecast-container">
+                <!-- Forecast items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Weather Chart -->
+        <section class="weather-chart-section">
+            <h3 class="section-title">
+                <i class="fas fa-chart-line"></i>
+                Temperature Trend
+            </h3>
+            <div class="chart-container">
+                <canvas id="weather-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Weather Map -->
+        <section class="weather-map-section">
+            <h3 class="section-title">
+                <i class="fas fa-map"></i>
+                Weather Map
+            </h3>
+            <div class="map-controls">
+                <button class="map-layer-btn active" data-layer="temp">Temperature</button>
+                <button class="map-layer-btn" data-layer="precipitation">Precipitation</button>
+                <button class="map-layer-btn" data-layer="wind">Wind</button>
+                <button class="map-layer-btn" data-layer="clouds">Clouds</button>
+            </div>
+            <div id="weather-map" class="weather-map"></div>
+        </section>
+
+        <!-- Favorites -->
+        <section class="favorites-section">
+            <h3 class="section-title">
+                <i class="fas fa-star"></i>
+                Favorite Locations
+                <button id="add-favorite" class="add-favorite-btn" title="Add Current Location">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </h3>
+            <div id="favorites-container" class="favorites-container">
+                <p class="no-favorites">No favorite locations yet. Add some to quickly check their weather!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="weather-config.js"></script>
+    <script src="weather-script.js"></script>
+</body>
+</html>
